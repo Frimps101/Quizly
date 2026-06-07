@@ -48,3 +48,66 @@ export async function getTopicProgress(req, res) {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+
+// Full progress summary: overall + per-subject + recent activity
+export async function getProgressSummary(req, res) {
+    try {
+        const [overallRes, subjectsRes, recentRes] = await Promise.all([
+            pool.query(`
+                SELECT
+                    COUNT(DISTINCT q.id)                                                        AS total_questions,
+                    COUNT(DISTINCT p.question_id)                                               AS total_reviewed,
+                    COUNT(DISTINCT p.question_id) FILTER (WHERE p.status = 'mastered')         AS total_mastered,
+                    COUNT(DISTINCT s.id)                                                        AS total_subjects,
+                    COUNT(DISTINCT t.id)                                                        AS total_topics
+                FROM questions q
+                LEFT JOIN user_progress p  ON p.question_id = q.id
+                LEFT JOIN topics t         ON t.id = q.topic_id
+                LEFT JOIN subjects s       ON s.id = t.subject_id
+            `),
+            pool.query(`
+                SELECT
+                    s.id,
+                    s.name,
+                    s.icon,
+                    s.icon_color          AS "iconColor",
+                    COUNT(DISTINCT q.id)  AS total_questions,
+                    COUNT(DISTINCT p.question_id) FILTER (WHERE p.status = 'mastered')  AS mastered,
+                    COUNT(DISTINCT p.question_id) FILTER (WHERE p.status = 'learning')  AS learning
+                FROM subjects s
+                LEFT JOIN topics t         ON t.subject_id = s.id
+                LEFT JOIN questions q      ON q.topic_id   = t.id
+                LEFT JOIN user_progress p  ON p.question_id = q.id
+                GROUP BY s.id, s.name, s.icon, s.icon_color
+                ORDER BY s.name
+            `),
+            pool.query(`
+                SELECT
+                    p.last_reviewed,
+                    p.status,
+                    p.review_count,
+                    q.question_text,
+                    t.name  AS topic_name,
+                    s.name  AS subject_name,
+                    s.icon,
+                    s.icon_color AS "iconColor"
+                FROM user_progress p
+                JOIN questions q ON q.id = p.question_id
+                JOIN topics t    ON t.id = q.topic_id
+                JOIN subjects s  ON s.id = t.subject_id
+                WHERE p.last_reviewed IS NOT NULL
+                ORDER BY p.last_reviewed DESC
+                LIMIT 8
+            `),
+        ]);
+
+        res.status(200).json({
+            overall: overallRes.rows[0],
+            subjects: subjectsRes.rows,
+            recentActivity: recentRes.rows,
+        });
+    } catch (error) {
+        console.log("Error fetching progress summary", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}

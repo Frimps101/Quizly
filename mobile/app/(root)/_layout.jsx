@@ -1,11 +1,13 @@
 import { Tabs, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { Modal, View, Text, TouchableOpacity, Pressable, StyleSheet } from "react-native";
+import { Modal, View, Text, TouchableOpacity, Pressable } from "react-native";
+import { useTheme } from "../../hooks/useTheme";
 
 const RootLayout = () => {
   const [quizModalVisible, setQuizModalVisible] = useState(false);
   const router = useRouter();
+  const theme = useTheme();
 
   const handleStartQuiz = () => {
     setQuizModalVisible(false);
@@ -23,11 +25,11 @@ const RootLayout = () => {
         screenOptions={{
           headerShown: false,
           tabBarActiveTintColor: "#8641f4",
-          tabBarInactiveTintColor: "#999",
+          tabBarInactiveTintColor: theme.textTer,
           tabBarStyle: {
-            backgroundColor: "#FFF",
+            backgroundColor: theme.surface,
             borderTopWidth: 1,
-            borderTopColor: "#E0E0E0",
+            borderTopColor: theme.border,
             height: 60,
             paddingBottom: 30,
             paddingTop: 8,
@@ -43,11 +45,7 @@ const RootLayout = () => {
           options={{
             title: "Home",
             tabBarIcon: ({ color, size, focused }) => (
-              <Ionicons 
-                name={focused ? "home" : "home-outline"} 
-                size={size} 
-                color={color} 
-              />
+              <Ionicons name={focused ? "home" : "home-outline"} size={size} color={color} />
             ),
           }}
         />
@@ -56,11 +54,7 @@ const RootLayout = () => {
           options={{
             title: "Flashcards",
             tabBarIcon: ({ color, size, focused }) => (
-              <Ionicons
-                name={focused ? "albums" : "albums-outline"}
-                size={size}
-                color={color}
-              />
+              <Ionicons name={focused ? "albums" : "albums-outline"} size={size} color={color} />
             ),
           }}
         />
@@ -69,11 +63,7 @@ const RootLayout = () => {
           options={{
             title: "Quiz",
             tabBarIcon: ({ color, size }) => (
-              <Ionicons 
-                name="rocket-outline"
-                size={size} 
-                color={color} 
-              />
+              <Ionicons name="rocket-outline" size={size} color={color} />
             ),
           }}
           listeners={{
@@ -88,11 +78,7 @@ const RootLayout = () => {
           options={{
             title: "Progress",
             tabBarIcon: ({ color, size, focused }) => (
-              <Ionicons 
-                name={focused ? "stats-chart" : "stats-chart-outline"} 
-                size={size} 
-                color={color} 
-              />
+              <Ionicons name={focused ? "stats-chart" : "stats-chart-outline"} size={size} color={color} />
             ),
           }}
         />
@@ -101,61 +87,69 @@ const RootLayout = () => {
           options={{
             title: "Profile",
             tabBarIcon: ({ color, size, focused }) => (
-              <Ionicons 
-                name={focused ? "person" : "person-outline"} 
-                size={size} 
-                color={color} 
-              />
+              <Ionicons name={focused ? "person" : "person-outline"} size={size} color={color} />
             ),
           }}
         />
       </Tabs>
 
-      {/* Quiz Options Modal */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={quizModalVisible}
         onRequestClose={() => setQuizModalVisible(false)}
       >
-        <Pressable style={styles.modalOverlay} onPress={() => setQuizModalVisible(false)}>
-          <Pressable style={styles.modalContent} onPress={(e) => e.stopPropagation()}>
-            {/* Handle Bar */}
-            <View style={styles.handleBar} />
+        <Pressable
+          style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' }}
+          onPress={() => setQuizModalVisible(false)}
+        >
+          <Pressable
+            style={{
+              backgroundColor: theme.surface,
+              borderTopLeftRadius: 24, borderTopRightRadius: 24,
+              paddingHorizontal: 20, paddingTop: 12, paddingBottom: 40, minHeight: 350,
+            }}
+            onPress={(e) => e.stopPropagation()}
+          >
+            <View style={{ width: 40, height: 4, backgroundColor: theme.handleBar, borderRadius: 2, alignSelf: 'center', marginBottom: 20 }} />
 
-            <Text style={styles.modalTitle}>Choose an Option</Text>
+            <Text style={{ fontSize: 22, fontWeight: '700', color: theme.text, marginBottom: 24, textAlign: 'center' }}>
+              Choose an Option
+            </Text>
 
-            {/* Start Quiz Option */}
-            <TouchableOpacity style={styles.option} onPress={handleStartQuiz}>
-              <View style={styles.optionIcon}>
+            <TouchableOpacity
+              style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: theme.surface2, borderRadius: 16, padding: 16, marginBottom: 12 }}
+              onPress={handleStartQuiz}
+            >
+              <View style={{ marginRight: 16 }}>
                 <Ionicons name="play-circle" size={32} color="#8641f4" />
               </View>
-              <View style={styles.optionContent}>
-                <Text style={styles.optionTitle}>Start Quiz</Text>
-                <Text style={styles.optionDescription}>
-                  Take a quiz from available subjects
-                </Text>
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 18, fontWeight: '600', color: theme.text, marginBottom: 4 }}>Start Quiz</Text>
+                <Text style={{ fontSize: 14, color: theme.textSec }}>Take a quiz from available subjects</Text>
               </View>
-              <Ionicons name="chevron-forward" size={24} color="#999" />
+              <Ionicons name="chevron-forward" size={24} color={theme.textTer} />
             </TouchableOpacity>
 
-            {/* Create Quiz Option */}
-            <TouchableOpacity style={styles.option} onPress={handleCreateQuiz}>
-              <View style={styles.optionIcon}>
+            <TouchableOpacity
+              style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: theme.surface2, borderRadius: 16, padding: 16, marginBottom: 12 }}
+              onPress={handleCreateQuiz}
+            >
+              <View style={{ marginRight: 16 }}>
                 <Ionicons name="add-circle" size={32} color="#8641f4" />
               </View>
-              <View style={styles.optionContent}>
-                <Text style={styles.optionTitle}>Create Quiz</Text>
-                <Text style={styles.optionDescription}>
-                  Create your own custom quiz
-                </Text>
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 18, fontWeight: '600', color: theme.text, marginBottom: 4 }}>Create Quiz</Text>
+                <Text style={{ fontSize: 14, color: theme.textSec }}>Create your own custom quiz</Text>
               </View>
-              <Ionicons name="chevron-forward" size={24} color="#999" />
+              <Ionicons name="chevron-forward" size={24} color={theme.textTer} />
             </TouchableOpacity>
 
-            {/* Cancel Button */}
-            <TouchableOpacity style={styles.cancelButton} onPress={() => setQuizModalVisible(false)}>
-              <Text style={styles.cancelButtonText}>Cancel</Text>
+            <TouchableOpacity
+              style={{ marginTop: 12, paddingVertical: 16, alignItems: 'center' }}
+              onPress={() => setQuizModalVisible(false)}
+            >
+              <Text style={{ fontSize: 16, fontWeight: '600', color: '#8641f4' }}>Cancel</Text>
             </TouchableOpacity>
           </Pressable>
         </Pressable>
@@ -163,71 +157,5 @@ const RootLayout = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    justifyContent: 'flex-end',
-  },
-  modalContent: {
-    backgroundColor: '#FFF',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    paddingBottom: 40,
-    minHeight: 350,
-  },
-  handleBar: {
-    width: 40,
-    height: 4,
-    backgroundColor: '#D0D0D0',
-    borderRadius: 2,
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-  modalTitle: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#000',
-    marginBottom: 24,
-    textAlign: 'center',
-  },
-  option: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F8F8F8',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-  },
-  optionIcon: {
-    marginRight: 16,
-  },
-  optionContent: {
-    flex: 1,
-  },
-  optionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#000',
-    marginBottom: 4,
-  },
-  optionDescription: {
-    fontSize: 14,
-    color: '#666',
-  },
-  cancelButton: {
-    marginTop: 12,
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-  cancelButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#8641f4',
-  },
-});
 
 export default RootLayout;
