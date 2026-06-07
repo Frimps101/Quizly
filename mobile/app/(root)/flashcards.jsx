@@ -7,10 +7,12 @@ import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useSubjects } from "../../hooks/useSubjects";
 import { useTopics } from "../../hooks/useTopics";
+import { useTheme } from "../../hooks/useTheme";
 
 const API_URL = "http://localhost:5002/api";
 
 function TopicRow({ topic, subjectColor, subjectIcon }) {
+  const theme = useTheme();
   const [progress, setProgress] = useState(null);
 
   useEffect(() => {
@@ -26,7 +28,7 @@ function TopicRow({ topic, subjectColor, subjectIcon }) {
 
   return (
     <TouchableOpacity
-      style={styles.topicCard}
+      style={[styles.topicCard, { borderBottomColor: theme.bg }]}
       activeOpacity={0.75}
       onPress={() =>
         router.push({
@@ -40,15 +42,13 @@ function TopicRow({ topic, subjectColor, subjectIcon }) {
           <Ionicons name={subjectIcon || "school"} size={20} color={subjectColor} />
         </View>
         <View style={styles.topicInfo}>
-          <Text style={styles.topicName}>{topic.name}</Text>
-          {total > 0 && (
-            <Text style={styles.topicSub}>{mastered}/{total} mastered</Text>
-          )}
+          <Text style={[styles.topicName, { color: theme.text }]}>{topic.name}</Text>
+          {total > 0 && <Text style={[styles.topicSub, { color: theme.textTer }]}>{mastered}/{total} mastered</Text>}
         </View>
       </View>
       <View style={styles.topicRight}>
         {total > 0 && (
-          <View style={styles.progressPill}>
+          <View style={[styles.progressPill, { backgroundColor: theme.border }]}>
             <View style={[styles.progressFill, { width: `${pct}%`, backgroundColor: subjectColor }]} />
           </View>
         )}
@@ -59,6 +59,7 @@ function TopicRow({ topic, subjectColor, subjectIcon }) {
 }
 
 function SubjectSection({ subject }) {
+  const theme = useTheme();
   const resolvedColor = subject.iconColor || "#8641f4";
   const { topics, loadTopics, isLoading } = useTopics(subject.id);
   const [expanded, setExpanded] = useState(false);
@@ -70,31 +71,27 @@ function SubjectSection({ subject }) {
   return (
     <View style={styles.subjectSection}>
       <TouchableOpacity
-        style={[styles.subjectHeader, expanded && { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }]}
+        style={[styles.subjectHeader, { backgroundColor: theme.surface },
+          expanded && { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }]}
         onPress={() => setExpanded(e => !e)}
         activeOpacity={0.8}
       >
         <View style={[styles.subjectIconBox, { backgroundColor: resolvedColor + "22" }]}>
           <Ionicons name={subject.icon || "school"} size={22} color={resolvedColor} />
         </View>
-        <Text style={styles.subjectName}>{subject.name}</Text>
-        <Ionicons name={expanded ? "chevron-up" : "chevron-down"} size={20} color="#999" />
+        <Text style={[styles.subjectName, { color: theme.text }]}>{subject.name}</Text>
+        <Ionicons name={expanded ? "chevron-up" : "chevron-down"} size={20} color={theme.textTer} />
       </TouchableOpacity>
 
       {expanded && (
-        <View style={styles.topicsContainer}>
+        <View style={[styles.topicsContainer, { backgroundColor: theme.surface, borderTopColor: theme.border }]}>
           {isLoading ? (
             <ActivityIndicator color={resolvedColor} style={{ padding: 16 }} />
           ) : topics.length === 0 ? (
-            <Text style={styles.noTopics}>No topics available yet</Text>
+            <Text style={[styles.noTopics, { color: theme.textTer }]}>No topics available yet</Text>
           ) : (
             topics.map(t => (
-              <TopicRow
-                key={t.id}
-                topic={t}
-                subjectColor={resolvedColor}
-                subjectIcon={subject.icon}
-              />
+              <TopicRow key={t.id} topic={t} subjectColor={resolvedColor} subjectIcon={subject.icon} />
             ))
           )}
         </View>
@@ -104,6 +101,7 @@ function SubjectSection({ subject }) {
 }
 
 export default function Flashcards() {
+  const theme = useTheme();
   const { subjects, loadData, isLoading } = useSubjects();
   const [refreshing, setRefreshing] = useState(false);
 
@@ -116,10 +114,10 @@ export default function Flashcards() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Flashcards</Text>
-        <Text style={styles.headerSub}>Tap a subject to see topics</Text>
+    <View style={[styles.container, { backgroundColor: theme.bg }]}>
+      <View style={[styles.header, { backgroundColor: theme.surface, borderBottomColor: theme.border }]}>
+        <Text style={[styles.headerTitle, { color: theme.text }]}>Flashcards</Text>
+        <Text style={[styles.headerSub, { color: theme.textTer }]}>Tap a subject to see topics</Text>
       </View>
 
       <ScrollView
@@ -131,9 +129,9 @@ export default function Flashcards() {
           <ActivityIndicator color="#8641f4" style={{ marginTop: 40 }} />
         ) : subjects.length === 0 ? (
           <View style={styles.empty}>
-            <Ionicons name="albums-outline" size={52} color="#CCC" />
-            <Text style={styles.emptyTitle}>No subjects yet</Text>
-            <Text style={styles.emptySub}>Add subjects to start studying with flashcards</Text>
+            <Ionicons name="albums-outline" size={52} color={theme.textTer} />
+            <Text style={[styles.emptyTitle, { color: theme.textTer }]}>No subjects yet</Text>
+            <Text style={[styles.emptySub, { color: theme.textTer }]}>Add subjects to start studying with flashcards</Text>
           </View>
         ) : (
           subjects.map(s => <SubjectSection key={s.id} subject={s} />)
@@ -144,56 +142,39 @@ export default function Flashcards() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F5F5F5" },
-  header: {
-    paddingHorizontal: 20, paddingTop: 56, paddingBottom: 16,
-    backgroundColor: "#FFF", borderBottomWidth: 1, borderBottomColor: "#E0E0E0",
-  },
-  headerTitle: { fontSize: 24, fontWeight: "700", color: "#000" },
-  headerSub: { fontSize: 14, color: "#999", marginTop: 2 },
+  container: { flex: 1 },
+  header: { paddingHorizontal: 20, paddingTop: 56, paddingBottom: 16, borderBottomWidth: 1 },
+  headerTitle: { fontSize: 24, fontWeight: "700" },
+  headerSub: { fontSize: 14, marginTop: 2 },
   scroll: { flex: 1 },
   content: { padding: 16, paddingBottom: 40 },
-
   subjectSection: { marginBottom: 12 },
   subjectHeader: {
     flexDirection: "row", alignItems: "center", gap: 12,
-    backgroundColor: "#FFF", borderRadius: 16, padding: 14,
+    borderRadius: 16, padding: 14,
     shadowColor: "#000", shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05, shadowRadius: 3, elevation: 2,
   },
-  subjectIconBox: {
-    width: 40, height: 40, borderRadius: 10,
-    justifyContent: "center", alignItems: "center",
-  },
-  subjectName: { flex: 1, fontSize: 16, fontWeight: "600", color: "#000" },
-
+  subjectIconBox: { width: 40, height: 40, borderRadius: 10, justifyContent: "center", alignItems: "center" },
+  subjectName: { flex: 1, fontSize: 16, fontWeight: "600" },
   topicsContainer: {
-    backgroundColor: "#FFF", borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16, paddingHorizontal: 14,
-    paddingBottom: 10, borderTopWidth: 1, borderTopColor: "#F0F0F0",
+    borderBottomLeftRadius: 16, borderBottomRightRadius: 16,
+    paddingHorizontal: 14, paddingBottom: 10, borderTopWidth: 1,
   },
-  noTopics: { fontSize: 14, color: "#BBB", padding: 16, textAlign: "center" },
-
+  noTopics: { fontSize: 14, padding: 16, textAlign: "center" },
   topicCard: {
     flexDirection: "row", alignItems: "center", justifyContent: "space-between",
-    paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: "#F5F5F5",
+    paddingVertical: 12, borderBottomWidth: 1,
   },
   topicLeft: { flexDirection: "row", alignItems: "center", gap: 10, flex: 1 },
-  topicIconBox: {
-    width: 34, height: 34, borderRadius: 8,
-    justifyContent: "center", alignItems: "center",
-  },
+  topicIconBox: { width: 34, height: 34, borderRadius: 8, justifyContent: "center", alignItems: "center" },
   topicInfo: { flex: 1 },
-  topicName: { fontSize: 14, fontWeight: "600", color: "#333" },
-  topicSub: { fontSize: 12, color: "#999", marginTop: 2 },
+  topicName: { fontSize: 14, fontWeight: "600" },
+  topicSub: { fontSize: 12, marginTop: 2 },
   topicRight: { flexDirection: "row", alignItems: "center", gap: 8 },
-  progressPill: {
-    width: 48, height: 5, backgroundColor: "#E0E0E0",
-    borderRadius: 3, overflow: "hidden",
-  },
+  progressPill: { width: 48, height: 5, borderRadius: 3, overflow: "hidden" },
   progressFill: { height: "100%", borderRadius: 3 },
-
   empty: { alignItems: "center", paddingVertical: 80 },
-  emptyTitle: { fontSize: 18, fontWeight: "600", color: "#999", marginTop: 16 },
-  emptySub: { fontSize: 14, color: "#BBB", marginTop: 4, textAlign: "center" },
+  emptyTitle: { fontSize: 18, fontWeight: "600", marginTop: 16 },
+  emptySub: { fontSize: 14, marginTop: 4, textAlign: "center" },
 });

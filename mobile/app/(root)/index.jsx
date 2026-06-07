@@ -4,17 +4,19 @@ import { Ionicons } from "@expo/vector-icons";
 import SubjectCard from "../../components/SubjectCard";
 import SearchBar from "../../components/SearchBar";
 import { subjects } from "../../data";
-import styles from "../../assets/styles/home.styles";
+import makeStyles from "../../assets/styles/home.styles";
+import { useTheme } from "../../hooks/useTheme";
 
 
 export default function Index() {
-  // Dummy user data
+  const theme = useTheme();
+  const styles = makeStyles(theme);
+
   const user = {
     name: "User",
-    profileImage: "https://i.pravatar.cc/300" // placeholder profile image
+    profileImage: "https://i.pravatar.cc/300",
   };
 
-  // Show only first 4 subjects on home page
   const featuredSubjects = subjects.slice(0, 4);
 
   const handleSubjectPress = (subject) => {
@@ -40,7 +42,7 @@ export default function Index() {
         <View style={styles.header}>
           <Text style={styles.greeting}>Hello {user.name}</Text>
           <View style={styles.profileImageContainer}>
-            <Image 
+            <Image
               source={{ uri: user.profileImage }}
               style={styles.profileImage}
             />
@@ -48,7 +50,7 @@ export default function Index() {
         </View>
 
         {/* Search Bar */}
-        <SearchBar 
+        <SearchBar
           placeholder="Subject, Progress Reports"
           style={styles.searchContainer}
         />
@@ -79,7 +81,6 @@ export default function Index() {
             />
           ))}
         </View>
-        
       </ScrollView>
 
       {/* FAB — create a new quiz */}

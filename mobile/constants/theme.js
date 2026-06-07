@@ -1,0 +1,31 @@
+export const lightTheme = {
+  bg: '#F5F5F5',
+  surface: '#FFFFFF',
+  surface2: '#F8F8F8',
+  text: '#000000',
+  textSec: '#666666',
+  textTer: '#999999',
+  border: '#E0E0E0',
+  inputBg: '#F0F0F0',
+  accent: '#8641f4',
+  accentLight: '#F8F4FF',
+  handleBar: '#D0D0D0',
+  shadow: '#000000',
+  isDark: false,
+};
+
+export const darkTheme = {
+  bg: '#000000',
+  surface: '#1C1C1E',
+  surface2: '#2C2C2E',
+  text: '#FFFFFF',
+  textSec: '#ABABAB',
+  textTer: '#636366',
+  border: '#38383A',
+  inputBg: '#2C2C2E',
+  accent: '#8641f4',
+  accentLight: '#1E1428',
+  handleBar: '#48484A',
+  shadow: '#000000',
+  isDark: true,
+};
