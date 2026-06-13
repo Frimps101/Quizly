@@ -402,10 +402,10 @@ function makeStyles(theme) {
     content: { padding: 20, paddingBottom: 40 },
     sectionLabel: { fontSize: 13, fontWeight: "700", color: theme.textSec, marginBottom: 10, textTransform: "uppercase", letterSpacing: 0.5 },
     optional: { fontWeight: "400", textTransform: "none" },
-    chipRow: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+    chipRow: { flexDirection: "column", gap: 8 },
     chip: {
       flexDirection: "row", alignItems: "center",
-      paddingHorizontal: 14, paddingVertical: 8, borderRadius: 20,
+      paddingHorizontal: 14, paddingVertical: 10, borderRadius: 12,
       backgroundColor: theme.surface, borderWidth: 1.5, borderColor: theme.border,
     },
     chipSelected: { backgroundColor: "#8641f4", borderColor: "#8641f4" },
