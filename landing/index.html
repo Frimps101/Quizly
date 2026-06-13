@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quizly — Learn anything, one card at a time</title>
+  <meta name="description" content="Quizly is a beautiful quiz and flashcard app to create your own quizzes, study with spaced-repetition flashcards, and track your learning progress." />
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:title" content="Quizly — Learn anything, one card at a time" />
+  <meta property="og:description" content="Create quizzes, study with flashcards, and track your progress." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== Nav ===== -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#top" class="brand">
+        <span class="brand__mark">Q</span>
+        <span class="brand__name">Quizly</span>
+      </a>
+
+      <nav class="nav__links" id="navLinks">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#download" class="btn btn--sm">Get the app</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="top">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <span class="pill">Smarter studying</span>
+        <h1 class="hero__title">Learn anything,<br /><span class="grad">one card at a time.</span></h1>
+        <p class="hero__sub">
+          Quizly helps you build your own quizzes, master topics with spaced-repetition
+          flashcards, and watch your progress grow — all in one beautifully simple app.
+        </p>
+        <div class="hero__cta">
+          <a href="#download" class="btn btn--lg">Get started free</a>
+          <a href="#how" class="btn btn--ghost btn--lg">See how it works</a>
+        </div>
+        <div class="hero__stats">
+          <div><strong>100%</strong><span>Free to use</span></div>
+          <div><strong>Offline</strong><span>Study anywhere</span></div>
+          <div><strong>Dark mode</strong><span>Easy on the eyes</span></div>
+        </div>
+      </div>
+
+      <!-- Phone mockup -->
+      <div class="hero__art">
+        <div class="phone">
+          <div class="phone__notch"></div>
+          <div class="phone__screen">
+            <p class="phone__greeting">Hello there 👋</p>
+            <h3 class="phone__h">What do you want to improve upon today?</h3>
+            <div class="phone__grid">
+              <div class="tile tile--a"><span>🧮</span>Math</div>
+              <div class="tile tile--b"><span>🧪</span>Science</div>
+              <div class="tile tile--c"><span>🌍</span>Geography</div>
+              <div class="tile tile--d"><span>💻</span>Coding</div>
+            </div>
+            <div class="phone__card">
+              <span class="phone__tag">Question</span>
+              <p>What is the capital of France?</p>
+            </div>
+            <button class="phone__fab">+</button>
+          </div>
+        </div>
+        <div class="blob blob--1"></div>
+        <div class="blob blob--2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Features ===== -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section__head">
+        <span class="pill">Features</span>
+        <h2>Everything you need to learn</h2>
+        <p>From building quizzes to tracking mastery, Quizly covers the whole study loop.</p>
+      </div>
+
+      <div class="features">
+        <article class="feature">
+          <div class="feature__icon">✍️</div>
+          <h3>Create your own quizzes</h3>
+          <p>Add multiple-choice, true/false, and short-answer questions with explanations — no limits.</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">🃏</div>
+          <h3>Spaced-repetition flashcards</h3>
+          <p>Flip animated cards and mark what you’ve mastered. Quizly remembers what needs review.</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">📊</div>
+          <h3>Track your progress</h3>
+          <p>See mastery percentages per subject, recent activity, and how far you’ve come.</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">🗂️</div>
+          <h3>Organized by subject &amp; topic</h3>
+          <p>Keep everything tidy with colorful subjects and nested topics you control.</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">🌙</div>
+          <h3>Light &amp; dark mode</h3>
+          <p>Automatically follows your device theme so studying is comfortable day or night.</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">⚡</div>
+          <h3>Fast &amp; offline-friendly</h3>
+          <p>A snappy native experience that keeps your study sessions flowing.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How it works ===== -->
+  <section class="section section--alt" id="how">
+    <div class="container">
+      <div class="section__head">
+        <span class="pill">How it works</span>
+        <h2>Start learning in three steps</h2>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step__num">1</div>
+          <h3>Add a subject</h3>
+          <p>Pick a name, icon, and color for whatever you want to learn.</p>
+        </div>
+        <div class="step">
+          <div class="step__num">2</div>
+          <h3>Build your quiz</h3>
+          <p>Create topics and add questions with answers and explanations.</p>
+        </div>
+        <div class="step">
+          <div class="step__num">3</div>
+          <h3>Study &amp; track</h3>
+          <p>Review with flashcards and watch your mastery climb over time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA / Download ===== -->
+  <section class="cta" id="download">
+    <div class="container cta__inner">
+      <h2>Ready to start learning?</h2>
+      <p>Quizly is free. Grab it and turn anything into a quiz.</p>
+      <div class="cta__buttons">
+        <a href="#" class="store-btn">
+          <span class="store-btn__top">Download on the</span>
+          <span class="store-btn__bottom">App Store</span>
+        </a>
+        <a href="#" class="store-btn">
+          <span class="store-btn__top">Get it on</span>
+          <span class="store-btn__bottom">Google Play</span>
+        </a>
+      </div>
+      <p class="cta__note">Links coming soon — the app is on its way to the stores.</p>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section" id="faq">
+    <div class="container container--narrow">
+      <div class="section__head">
+        <span class="pill">FAQ</span>
+        <h2>Questions, answered</h2>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>Is Quizly free?</summary>
+          <p>Yes — Quizly is completely free to use.</p>
+        </details>
+        <details>
+          <summary>What can I create quizzes about?</summary>
+          <p>Anything. Add your own subjects, topics, and questions for any subject you’re studying.</p>
+        </details>
+        <details>
+          <summary>Does it work offline?</summary>
+          <p>Your study sessions are designed to be fast and smooth, so you can review wherever you are.</p>
+        </details>
+        <details>
+          <summary>Is there a dark mode?</summary>
+          <p>Yes. Quizly automatically matches your device’s light or dark theme.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="#top" class="brand">
+        <span class="brand__mark">Q</span>
+        <span class="brand__name">Quizly</span>
+      </a>
+      <p class="footer__tag">Learn anything, one card at a time.</p>
+      <p class="footer__copy">© <span id="year"></span> Quizly. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

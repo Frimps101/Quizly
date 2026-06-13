@@ -10,12 +10,17 @@ export default function CreateQuiz() {
     if (option === "manual") router.push("/(subjects)/create-manual");
   };
 
+  const goBack = () => {
+    if (router.canGoBack()) router.back();
+    else router.replace("/(root)");
+  };
+
   const s = makeStyles(theme);
 
   return (
     <View style={s.container}>
       <View style={s.header}>
-        <TouchableOpacity onPress={() => router.back()} style={s.backButton}>
+        <TouchableOpacity onPress={goBack} style={s.backButton}>
           <Ionicons name="arrow-back" size={24} color={theme.text} />
         </TouchableOpacity>
         <Text style={s.headerTitle}>Create Quiz</Text>
@@ -27,7 +32,6 @@ export default function CreateQuiz() {
 
         {[
           { key: "manual",   icon: "create",        title: "Manual Creation",  desc: "Create quiz questions manually one by one" },
-          { key: "ai",       icon: "sparkles",       title: "AI Generated",     desc: "Generate quiz questions using AI" },
           { key: "import",   icon: "cloud-upload",   title: "Import from File", desc: "Upload a file with quiz questions" },
           { key: "template", icon: "document-text",  title: "Use Template",     desc: "Start from a pre-made quiz template" },
         ].map(opt => (
